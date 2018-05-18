@@ -1,0 +1,14 @@
+{
+  "generator-videojs-plugin": {
+    "scope": "",
+    "name": "http-source-selector",
+    "description": "VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.",
+    "author": "Justin Fujita <Justin@pivotshare.com>",
+    "license": "mit",
+    "sass": true,
+    "ie8": false,
+    "docs": true,
+    "lang": false,
+    "husky": "none"
+  }
+}
