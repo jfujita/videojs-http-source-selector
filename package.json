@@ -64,7 +64,8 @@
   ],
   "dependencies": {
     "global": "^4.3.2",
-    "video.js": "^5.19.2 || ^6.6.0"
+    "video.js": "^7.0.0",
+    "videojs-contrib-quality-levels": "^2.0.4"
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",

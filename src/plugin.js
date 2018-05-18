@@ -24,6 +24,21 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
  */
 const onPlayerReady = (player, options) => {
   player.addClass('vjs-http-source-selector');
+  console.log("videojs-http-source-selector initialized!");
+
+  var qualityLevels = player.qualityLevels();
+  console.log("player.techName_:"+player.techName_);
+  //This plugin only supports level selection for HLS playback
+  if(player.techName_ != 'Html5')
+  {
+    return false;
+  }
+
+  player.on(['loadedmetadata'], function(e)
+  {
+    videojs.log('loadmeadata event');
+  });
+
 };
 
 /**
@@ -42,6 +57,11 @@ const httpSourceSelector = function(options) {
   this.ready(() => {
     onPlayerReady(this, videojs.mergeOptions(defaults, options));
   });
+
+  this.on('playing', function() {
+    videojs.log('WTFWTFWTFWTF');
+  });
+
 };
 
 // Register the plugin with video.js.
