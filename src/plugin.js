@@ -50,15 +50,13 @@ const onPlayerReady = (player, options) =>
     if(player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true)
     {
       console.log("player.videojs_http_source_selector_initialized == true");
-      return;
     }
     else
     {
       console.log("player.videojs_http_source_selector_initialized == false")
       player.videojs_http_source_selector_initialized = true;
+      player.getChild('controlBar').addChild('SourceMenuButton', {});
     }
-
-    player.getChild('controlBar').addChild('SourceMenuButton', {});
   });
 };
 
