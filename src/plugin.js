@@ -27,9 +27,6 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
 */
 const onPlayerReady = (player, options) =>
 {
-  SourceMenuButton(videojs);
-  SourceMenuItem(videojs);
-
   player.addClass('vjs-http-source-selector');
   console.log("videojs-http-source-selector initialized!");
 
@@ -82,10 +79,8 @@ const onPlayerReady = (player, options) =>
       onPlayerReady(this, videojs.mergeOptions(defaults, options));
     });
 
-    this.on('playing', function() {
-      videojs.log('WTFWTFWTFWTF');
-    });
-
+    videojs.registerComponent('SourceMenuButton', SourceMenuButton);
+    videojs.registerComponent('SourceMenuItem', SourceMenuItem);
   };
 
   // Register the plugin with video.js.
