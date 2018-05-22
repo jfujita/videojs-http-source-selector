@@ -9,7 +9,7 @@ class SourceMenuItem extends MenuItem
     options.selectable = true;
     var qualityLevels = player.qualityLevels();
 
-    qualityLevels.on('change', videojs.bind(this, this.update));
+    //qualityLevels.on('change', videojs.bind(this, this.update));
     player.on('resolutionchange', videojs.bind(this, this.update));
   }
 
