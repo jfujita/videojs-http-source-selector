@@ -15,51 +15,51 @@ class SourceMenuButton extends MenuButton
     // to get all the features of components out of the box!
     super(player, options);
     MenuButton.apply(this, arguments);
-    var qualityLevels = player.qualityLevels();
+    var qualityLevels = this.player().qualityLevels();
     // Handle options: We accept an options.default value of ( high || low )
     // This determines a bias to set initial resolution selection.
     if(options && options.default)
     {
       console.log("options.default: "+options.default);
-      console.log("player.qualityLevels(): ");
-      console.log(player.qualityLevels());
-      console.log("player.qualityLevels().length: ");
-      console.log(player.qualityLevels().length);
+      console.log("this.player().qualityLevels(): ");
+      console.log(this.player().qualityLevels());
+      console.log("this.player().qualityLevels().length: ");
+      console.log(this.player().qualityLevels().length);
       if(options.default == 'low')
       {
-        for(var i = 0; i < player.qualityLevels().length; i++)
+        for(var i = 0; i < this.player().qualityLevels().length; i++)
         {
           if(i == 0)
           {
-            player.qualityLevels()[i].enabled = true;
+            this.player().qualityLevels()[i].enabled = true;
 
           }
           else
           {
-            player.qualityLevels()[i].enabled = false;
+            this.player().qualityLevels()[i].enabled = false;
 
           }
         }
       }
       else if(options.default = 'high')
       {
-        for(var i = 0; i < player.qualityLevels().length; i++)
+        for(var i = 0; i < this.player().qualityLevels().length; i++)
         {
-          if(i == player.qualityLevels().length - 1)
+          if(i == this.player().qualityLevels().length - 1)
           {
-            player.qualityLevels()[i].enabled = true;
+            this.player().qualityLevels()[i].enabled = true;
 
           }
           else
           {
-            player.qualityLevels()[i].enabled = false;
+            this.player().qualityLevels()[i].enabled = false;
 
           }
         }
       }
     }
     // Bind update to qualityLevels changes
-    qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
+    //qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
   };
 
   // The `createEl` function of a component creates its DOM element.
@@ -86,23 +86,23 @@ class SourceMenuButton extends MenuButton
   createItems()
   {
     var menuItems = [];
-    var labels = (player.qualityLevels) || {};
+    var labels = (this.player.qualityLevels) || {};
 
-    for(var i = 0; i < player.qualityLevels().length; i++)
+    for(var i = 0; i < this.player().qualityLevels().length; i++)
     {
-      var j = player.qualityLevels().length - (i + 1);
+      var j = this.player().qualityLevels().length - (i + 1);
 
-      //console.log(player.qualityLevels()[j].id);
-      //console.log(player.qualityLevels()[j]);
+      //console.log(this.player().qualityLevels()[j].id);
+      //console.log(this.player().qualityLevels()[j]);
       var label = ""+j;
       //Display height if height metadata is provided with the stream, else use bitrate
-      if(player.qualityLevels()[j].height)
+      if(this.player().qualityLevels()[j].height)
       {
-        label = player.qualityLevels()[j].height;
+        label = this.player().qualityLevels()[j].height;
       }
-      else if(player.qualityLevels()[j].bitrate)
+      else if(this.player().qualityLevels()[j].bitrate)
       {
-        label = Math.floor(player.qualityLevels()[j].bitrate / 1e3)+' kbps';
+        label = Math.floor(this.player().qualityLevels()[j].bitrate / 1e3)+' kbps';
       }
 
       menuItems.push(new SourceMenuItem(
@@ -110,18 +110,18 @@ class SourceMenuButton extends MenuButton
         {
           label:label,
           index: j,
-          selected: j === (player.qualityLevels.selectedIndex ? label : false)
+          selected: j === (this.player().qualityLevels().selectedIndex ? label : false)
         })
       );
     }
     //If there are more than one quality levels, offer an 'auto' option
-    if(player.qualityLevels().length > 1)
+    if(this.player().qualityLevels().length > 1)
     {
       menuItems.push(new SourceMenuItem(
         this.player_,
         {
           label:'Auto',
-          index:player.qualityLevels().length,
+          index:this.player().qualityLevels().length,
           selected: false
         })
       );

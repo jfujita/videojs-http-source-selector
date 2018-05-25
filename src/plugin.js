@@ -30,7 +30,6 @@ const onPlayerReady = (player, options) =>
   player.addClass('vjs-http-source-selector');
   console.log("videojs-http-source-selector initialized!");
 
-  var qualityLevels = player.qualityLevels();
   console.log("player.techName_:"+player.techName_);
   //This plugin only supports level selection for HLS playback
   if(player.techName_ != 'Html5')
@@ -45,6 +44,7 @@ const onPlayerReady = (player, options) =>
   **/
   player.on(['loadedmetadata'], function(e)
   {
+    var qualityLevels = player.qualityLevels();
     videojs.log('loadmeadata event');
     // hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
     if(player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true)
@@ -75,6 +75,7 @@ const onPlayerReady = (player, options) =>
   const httpSourceSelector = function(options) {
     this.ready(() => {
       onPlayerReady(this, videojs.mergeOptions(defaults, options));
+      //this.getChild('controlBar').addChild('SourceMenuButton', {});
     });
 
     videojs.registerComponent('SourceMenuButton', SourceMenuButton);
