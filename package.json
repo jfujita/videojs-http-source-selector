@@ -3,6 +3,10 @@
   "version": "1.0.1",
   "description": "VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.",
   "main": "dist/videojs-http-source-selector.cjs.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pivotshare/videojs-http-source-selector.git"
+  },
   "module": "dist/videojs-http-source-selector.es.js",
   "generator-videojs-plugin": {
     "version": "5.2.1"
