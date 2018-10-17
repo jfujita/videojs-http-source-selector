@@ -46,6 +46,7 @@ class SourceMenuButton extends MenuButton
   createItems() {
     var menuItems = [];
     var levels = this.player().qualityLevels();
+    var labels = [];
 
     for (var i = 0; i < levels.length; i++) {
       var index = levels.length - (i + 1);
@@ -53,19 +54,39 @@ class SourceMenuButton extends MenuButton
 
       // Display height if height metadata is provided with the stream, else use bitrate
       var label = `${index}`;
+      var sortVal = index;
       if (levels[index].height) {
         label = `${levels[index].height}p`;
+        sortVal = parseInt(levels[index].height, 10)
       } else if (levels[index].bitrate) {
         label = `${Math.floor(levels[index].bitrate / 1e3)} kbps`;
+        sortVal = parseInt(levels[index].bitrate, 10)
       }
 
-      menuItems.push(new SourceMenuItem(this.player_, {label, index, selected}));
+      // Skip duplicate labels
+      if (labels.indexOf(label) >= 0) {
+        continue
+      }
+      labels.push(label);
+
+      menuItems.push(new SourceMenuItem(this.player_, { label, index, selected, sortVal }));
     }
 
     // If there are multiple quality levels, offer an 'auto' option
     if (levels.length > 1) {
-      menuItems.push(new SourceMenuItem(this.player_, { label: 'Auto', index: levels.length, selected: false }));
+      menuItems.push(new SourceMenuItem(this.player_, { label: 'Auto', index: levels.length, selected: false, sortVal: 99999 }));
     }
+
+    // Sort menu items by their label name with Auto always first
+    menuItems.sort(function(a, b) {
+      if (a.options_.sortVal < b.options_.sortVal) {
+        return 1;
+      } else if (a.options_.sortVal > b.options_.sortVal) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
 
     return menuItems;
   }
