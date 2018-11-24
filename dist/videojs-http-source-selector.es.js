@@ -1,4 +1,4 @@
-import videojs$1 from 'video.js';
+import videojs from 'video.js';
 
 var version = "1.0.1";
 
@@ -209,7 +209,7 @@ var SourceMenuButton = function (_MenuButton) {
 var defaults = {};
 
 // Cross-compatibility for Video.js 5 and 6.
-var registerPlugin = videojs$1.registerPlugin || videojs$1.plugin;
+var registerPlugin = videojs.registerPlugin || videojs.plugin;
 // const dom = videojs.dom || videojs;
 
 /**
@@ -243,7 +243,7 @@ var onPlayerReady = function onPlayerReady(player, options) {
   **/
   player.on(['loadedmetadata'], function (e) {
     var qualityLevels = player.qualityLevels();
-    videojs$1.log('loadmeadata event');
+    videojs.log('loadmeadata event');
     // hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
     if (player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true) {
       console.log("player.videojs_http_source_selector_initialized == true");
@@ -271,12 +271,12 @@ var httpSourceSelector = function httpSourceSelector(options) {
   var _this = this;
 
   this.ready(function () {
-    onPlayerReady(_this, videojs$1.mergeOptions(defaults, options));
+    onPlayerReady(_this, videojs.mergeOptions(defaults, options));
     //this.getChild('controlBar').addChild('SourceMenuButton', {});
   });
 
-  videojs$1.registerComponent('SourceMenuButton', SourceMenuButton);
-  videojs$1.registerComponent('SourceMenuItem', SourceMenuItem);
+  videojs.registerComponent('SourceMenuButton', SourceMenuButton);
+  videojs.registerComponent('SourceMenuItem', SourceMenuItem);
 };
 
 // Register the plugin with video.js.
