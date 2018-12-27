@@ -95,8 +95,11 @@ class SourceMenuButton extends MenuButton
       //console.log(this.player().qualityLevels()[j].id);
       //console.log(this.player().qualityLevels()[j]);
       var label = ""+j;
-      //Display height if height metadata is provided with the stream, else use bitrate
-      if(this.player().qualityLevels()[j].height)
+      //Attempt to display label, height, and then bitrate metadata if provided
+      if(this.player().qualityLevels()[j].label)
+      {
+        label = this.player().qualityLevels()[j].label;
+      } else if(this.player().qualityLevels()[j].height)
       {
         label = this.player().qualityLevels()[j].height;
       }
