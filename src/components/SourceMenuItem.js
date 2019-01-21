@@ -20,20 +20,20 @@ class SourceMenuItem extends MenuItem
     console.log(this.player().qualityLevels());
     this.selected_=true;
     this.selected(true);
-    for(var i = 0; i < this.player().qualityLevels().length; i++)
+    for(var i = 0, levels = this.player().qualityLevels(); i < levels.length; i++)
     {
       //If this is the Auto option, enable all renditions for adaptive selection
-      if(this.options_.index == this.player().qualityLevels().length)
+      if(this.options_.index == levels.length)
       {
-        this.player().qualityLevels()[i].enabled = true;
+        levels[i].enabled = true;
       }
       else if(i == this.options_.index)
       {
-        this.player().qualityLevels()[i].enabled = true;
+        levels[i].enabled = true;
       }
       else
       {
-        this.player().qualityLevels()[i].enabled = false;
+        levels[i].enabled = false;
       }
     }
   }
