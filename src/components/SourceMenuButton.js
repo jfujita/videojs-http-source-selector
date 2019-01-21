@@ -27,33 +27,29 @@ class SourceMenuButton extends MenuButton
       console.log(this.player().qualityLevels().length);
       if(options.default == 'low')
       {
-        for(var i = 0; i < this.player().qualityLevels().length; i++)
+        for(var i = 0, levels = this.player().qualityLevels(); i < levels.length; i++)
         {
           if(i == 0)
           {
-            this.player().qualityLevels()[i].enabled = true;
-
+            levels[i].enabled = true;
           }
           else
           {
-            this.player().qualityLevels()[i].enabled = false;
-
+            levels[i].enabled = false;
           }
         }
       }
       else if(options.default = 'high')
       {
-        for(var i = 0; i < this.player().qualityLevels().length; i++)
+        for(var i = 0, levels = this.player().qualityLevels(); i < levels.length; i++)
         {
-          if(i == this.player().qualityLevels().length - 1)
+          if(i == levels.length - 1)
           {
-            this.player().qualityLevels()[i].enabled = true;
-
+            levels[i].enabled = true;
           }
           else
           {
-            this.player().qualityLevels()[i].enabled = false;
-
+            levels[i].enabled = false;
           }
         }
       }
@@ -86,23 +82,23 @@ class SourceMenuButton extends MenuButton
   createItems()
   {
     var menuItems = [];
-    var labels = (this.player.qualityLevels) || {};
+    //var labels = (this.player.qualityLevels) || {};
 
-    for(var i = 0; i < this.player().qualityLevels().length; i++)
+    for(var i = 0, levels = this.player().qualityLevels(); i < levels.length; i++)
     {
-      var j = this.player().qualityLevels().length - (i + 1);
+      var j = levels.length - (i + 1);
 
       //console.log(this.player().qualityLevels()[j].id);
       //console.log(this.player().qualityLevels()[j]);
       var label = ""+j;
       //Display height if height metadata is provided with the stream, else use bitrate
-      if(this.player().qualityLevels()[j].height)
+      if(levels[j].height)
       {
-        label = this.player().qualityLevels()[j].height;
+        label = levels[j].height;
       }
-      else if(this.player().qualityLevels()[j].bitrate)
+      else if(levels[j].bitrate)
       {
-        label = Math.floor(this.player().qualityLevels()[j].bitrate / 1e3)+' kbps';
+        label = Math.floor(levels[j].bitrate / 1e3)+' kbps';
       }
 
       menuItems.push(new SourceMenuItem(
@@ -110,18 +106,18 @@ class SourceMenuButton extends MenuButton
         {
           label:label,
           index: j,
-          selected: j === (this.player().qualityLevels().selectedIndex ? label : false)
+          selected: j === (levels.selectedIndex ? label : false)
         })
       );
     }
     //If there are more than one quality levels, offer an 'auto' option
-    if(this.player().qualityLevels().length > 1)
+    if(levels.length > 1)
     {
       menuItems.push(new SourceMenuItem(
         this.player_,
         {
           label:'Auto',
-          index:this.player().qualityLevels().length,
+          index:levels.length,
           selected: false
         })
       );
