@@ -32,7 +32,7 @@
     "start": "npm-run-all -p start:server watch",
     "start:server": "node scripts/server.js",
     "pretest": "npm-run-all lint build",
-    "test": "karma start test/karma.conf.js",
+    "test": "",
     "preversion": "npm test",
     "version": "node scripts/version.js",
     "watch": "npm-run-all -p watch:*",
