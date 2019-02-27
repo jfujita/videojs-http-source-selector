@@ -34,7 +34,6 @@
     "pretest": "npm-run-all lint build",
     "test": "karma start test/karma.conf.js",
     "preversion": "npm test",
-    "version": "node scripts/version.js",
     "watch": "npm-run-all -p watch:*",
     "watch:css": "npm-run-all build:css:sass watch:css:sass",
     "watch:css:sass": "node-sass src/plugin.scss dist/videojs-http-source-selector.css --output-style=compressed --linefeed=lf --watch src/**/*.scss",
