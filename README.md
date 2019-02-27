@@ -59,6 +59,19 @@ require(['video.js', 'videojs-http-source-selector'], function(videojs) {
 });
 ```
 
+### Building from src
+To build, checkout the repo, run ```npm install``` && ```npm start```,
+go to localhost:9999 (or the next free port) and test out the plugin.
+
+### Pushing
+* ```npm install```
+* ```npm build```
+* ```npm version major/minor/patch```
+* ```git push origin master --tags```
+* ```npm publish```
+
+### WIP: get tagged commits to master to trigger github action builds that publish to npm
+
 ## License
 
 MIT. Copyright (c) Justin Fujita &lt;Justin@pivotshare.com&gt;
