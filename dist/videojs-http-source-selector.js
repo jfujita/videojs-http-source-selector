@@ -1,7 +1,7 @@
 /**
  * videojs-http-source-selector
- * @version 1.0.1
- * @copyright 2018 Justin Fujita <Justin@pivotshare.com>
+ * @version 1.0.6
+ * @copyright 2019 Justin Fujita <Justin@pivotshare.com>
  * @license MIT
  */
 (function (global, factory) {
@@ -12,7 +12,7 @@
 
 videojs$1 = videojs$1 && videojs$1.hasOwnProperty('default') ? videojs$1['default'] : videojs$1;
 
-var version = "1.0.1";
+var version = "1.0.6";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -91,9 +91,9 @@ var SourceMenuItem = function (_MenuItem) {
         // If this is the Auto option, enable all renditions for adaptive selection
         levels[i].enabled = true;
       } else if (selected.index == i) {
-        levels.enabled = true;
+        levels[i].enabled = true;
       } else {
-        levels.enabled = false;
+        levels[i].enabled = false;
       }
     }
   };
@@ -206,6 +206,7 @@ var SourceMenuButton = function (_MenuButton) {
   return SourceMenuButton;
 }(MenuButton);
 
+// Default options for the plugin.
 var defaults = {};
 
 // Cross-compatibility for Video.js 5 and 6.
