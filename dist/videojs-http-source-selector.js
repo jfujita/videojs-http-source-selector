@@ -1,3 +1,9 @@
+/**
+ * videojs-http-source-selector
+ * @version 1.0.1
+ * @copyright 2018 Justin Fujita <Justin@pivotshare.com>
+ * @license MIT
+ */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
 	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
