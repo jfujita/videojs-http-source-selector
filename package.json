@@ -1,6 +1,6 @@
 {
   "name": "videojs-http-source-selector",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.",
   "main": "dist/videojs-http-source-selector.cjs.js",
   "repository": {
