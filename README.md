@@ -2,6 +2,31 @@
 
 VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.
 
+![Alt text](doc/images/example.png "Source selector")
+
+Compatible with vjs 7 and up.
+
+### Labels:
+Level labels are generated from the ```height``` and ```bitrate``` metadata parsed from the stream QualityLevels sources.  If ```height``` isn't available in the stream metadata, the labels will default to ```bitrate```.
+
+### Default settings:
+You can configure a bias to lock playback to the highest or lowest resolution by default by passing one of the below plugin options into your videojs initializer.
+
+#### Low:
+```js
+httpSourceSelector:
+{
+  default: 'low'
+}
+```
+#### High:
+```js
+httpSourceSelector:
+{
+  default: 'high'
+}
+```
+
 ## Table of Contents
 
 <!-- START doctoc -->
