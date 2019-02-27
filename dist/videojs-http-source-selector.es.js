@@ -63,35 +63,32 @@ var SourceMenuItem = function (_MenuItem) {
     var _this = possibleConstructorReturn(this, _MenuItem.call(this, player, options));
 
     options.selectable = true;
-    //var qualityLevels = this.player().qualityLevels();
-
-    //qualityLevels.on('change', videojs.bind(this, this.update));
-    //this.player.on('resolutionchange', videojs.bind(this, this.update));
     return _this;
   }
 
   SourceMenuItem.prototype.handleClick = function handleClick() {
-    console.log("Change quality to " + this.options_.label);
-    console.log("qualityLevels: ");
-    console.log(this.player().qualityLevels());
+    var selected = this.options_;
+    console.log("Changing quality to:", selected.label);
+
     this.selected_ = true;
     this.selected(true);
-    for (var i = 0; i < this.player().qualityLevels().length; i++) {
-      //If this is the Auto option, enable all renditions for adaptive selection
-      if (this.options_.index == this.player().qualityLevels().length) {
-        this.player().qualityLevels()[i].enabled = true;
-      } else if (i == this.options_.index) {
-        this.player().qualityLevels()[i].enabled = true;
+
+    var levels = this.player().qualityLevels();
+    for (var i = 0; i < levels.length; i++) {
+      if (selected.index == levels.length) {
+        // If this is the Auto option, enable all renditions for adaptive selection
+        levels[i].enabled = true;
+      } else if (selected.index == i) {
+        levels.enabled = true;
       } else {
-        this.player().qualityLevels()[i].enabled = false;
+        levels.enabled = false;
       }
     }
   };
 
   SourceMenuItem.prototype.update = function update() {
-    var selection = this.player().qualityLevels().selectedIndex;
-    console.log(this.options_.index + " == " + selection);
-    console.log("menuItem.index === qualityLevels().selectedIndex");
+    var levels = this.player().qualityLevels();
+    var selection = levels.selectedIndex;
     this.selected(this.options_.index == selection);
     this.selected_ = this.options_.index === selection;
   };
@@ -101,61 +98,39 @@ var SourceMenuItem = function (_MenuItem) {
 
 var MenuButton = videojs.getComponent('MenuButton');
 
-// The videojs.extend function is used to assist with inheritance. In
-// an ES6 environment, `class SourceButton extends MenuButton` would work
-// identically.
-
 var SourceMenuButton = function (_MenuButton) {
   inherits(SourceMenuButton, _MenuButton);
 
-  // The constructor of a component receives two arguments: the
-  // player it will be associated with and an object of options.
   function SourceMenuButton(player, options) {
     classCallCheck(this, SourceMenuButton);
 
     var _this = possibleConstructorReturn(this, _MenuButton.call(this, player, options));
-    // It is important to invoke the superclass before anything else,
-    // to get all the features of components out of the box!
-
 
     MenuButton.apply(_this, arguments);
+
     var qualityLevels = _this.player().qualityLevels();
+
     // Handle options: We accept an options.default value of ( high || low )
     // This determines a bias to set initial resolution selection.
     if (options && options.default) {
-      console.log("options.default: " + options.default);
-      console.log("this.player().qualityLevels(): ");
-      console.log(_this.player().qualityLevels());
-      console.log("this.player().qualityLevels().length: ");
-      console.log(_this.player().qualityLevels().length);
       if (options.default == 'low') {
-        for (var i = 0; i < _this.player().qualityLevels().length; i++) {
-          if (i == 0) {
-            _this.player().qualityLevels()[i].enabled = true;
-          } else {
-            _this.player().qualityLevels()[i].enabled = false;
-          }
+        for (var i = 0; i < qualityLevels.length; i++) {
+          qualityLevels[i].enabled = i == 0;
         }
       } else if (options.default = 'high') {
-        for (var i = 0; i < _this.player().qualityLevels().length; i++) {
-          if (i == _this.player().qualityLevels().length - 1) {
-            _this.player().qualityLevels()[i].enabled = true;
-          } else {
-            _this.player().qualityLevels()[i].enabled = false;
-          }
+        for (var i = 0; i < qualityLevels.length; i++) {
+          qualityLevels[i].enabled = i == qualityLevels.length - 1;
         }
       }
     }
+
     // Bind update to qualityLevels changes
-    //qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
+    //this.player().qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
     return _this;
   }
 
-  // The `createEl` function of a component creates its DOM element.
   SourceMenuButton.prototype.createEl = function createEl() {
     return videojs.dom.createEl('div', {
-      // Prefixing classes of elements within a player with "vjs-"
-      // is a convention used in Video.js.
       className: 'vjs-http-source-selector vjs-menu-button vjs-menu-button-popup vjs-control vjs-button'
     });
   };
@@ -170,42 +145,55 @@ var SourceMenuButton = function (_MenuButton) {
 
   SourceMenuButton.prototype.createItems = function createItems() {
     var menuItems = [];
-    var labels = this.player.qualityLevels || {};
+    var levels = this.player().qualityLevels();
+    var labels = [];
 
-    for (var i = 0; i < this.player().qualityLevels().length; i++) {
-      var j = this.player().qualityLevels().length - (i + 1);
+    for (var i = 0; i < levels.length; i++) {
+      var index = levels.length - (i + 1);
+      var selected = index === levels.selectedIndex;
 
-      //console.log(this.player().qualityLevels()[j].id);
-      //console.log(this.player().qualityLevels()[j]);
-      var label = "" + j;
-      //Display height if height metadata is provided with the stream, else use bitrate
-      if (this.player().qualityLevels()[j].height) {
-        label = this.player().qualityLevels()[j].height;
-      } else if (this.player().qualityLevels()[j].bitrate) {
-        label = Math.floor(this.player().qualityLevels()[j].bitrate / 1e3) + ' kbps';
+      // Display height if height metadata is provided with the stream, else use bitrate
+      var label = '' + index;
+      var sortVal = index;
+      if (levels[index].height) {
+        label = levels[index].height + 'p';
+        sortVal = parseInt(levels[index].height, 10);
+      } else if (levels[index].bitrate) {
+        label = Math.floor(levels[index].bitrate / 1e3) + ' kbps';
+        sortVal = parseInt(levels[index].bitrate, 10);
       }
 
-      menuItems.push(new SourceMenuItem(this.player_, {
-        label: label,
-        index: j,
-        selected: j === (this.player().qualityLevels().selectedIndex ? label : false)
-      }));
+      // Skip duplicate labels
+      if (labels.indexOf(label) >= 0) {
+        continue;
+      }
+      labels.push(label);
+
+      menuItems.push(new SourceMenuItem(this.player_, { label: label, index: index, selected: selected, sortVal: sortVal }));
     }
-    //If there are more than one quality levels, offer an 'auto' option
-    if (this.player().qualityLevels().length > 1) {
-      menuItems.push(new SourceMenuItem(this.player_, {
-        label: 'Auto',
-        index: this.player().qualityLevels().length,
-        selected: false
-      }));
+
+    // If there are multiple quality levels, offer an 'auto' option
+    if (levels.length > 1) {
+      menuItems.push(new SourceMenuItem(this.player_, { label: 'Auto', index: levels.length, selected: false, sortVal: 99999 }));
     }
+
+    // Sort menu items by their label name with Auto always first
+    menuItems.sort(function (a, b) {
+      if (a.options_.sortVal < b.options_.sortVal) {
+        return 1;
+      } else if (a.options_.sortVal > b.options_.sortVal) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+
     return menuItems;
   };
 
   return SourceMenuButton;
 }(MenuButton);
 
-// Default options for the plugin.
 var defaults = {};
 
 // Cross-compatibility for Video.js 5 and 6.
