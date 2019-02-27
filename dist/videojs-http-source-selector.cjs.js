@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var videojs$1 = _interopDefault(require('video.js'));
 
-var version = "1.0.6";
+var version = "1.0.7";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -243,7 +243,9 @@ var onPlayerReady = function onPlayerReady(player, options) {
     } else {
       console.log("player.videojs_http_source_selector_initialized == false");
       player.videojs_http_source_selector_initialized = true;
-      player.getChild('controlBar').addChild('SourceMenuButton', {});
+      var controlBar = player.controlBar,
+          fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
+      controlBar.el().insertBefore(controlBar.addChild('SourceMenuButton').el(), fullscreenToggle);
     }
   });
 };

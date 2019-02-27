@@ -1,9 +1,3 @@
-/**
- * videojs-http-source-selector
- * @version 1.0.6
- * @copyright 2019 Justin Fujita <Justin@pivotshare.com>
- * @license MIT
- */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
 	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
@@ -12,7 +6,7 @@
 
 videojs$1 = videojs$1 && videojs$1.hasOwnProperty('default') ? videojs$1['default'] : videojs$1;
 
-var version = "1.0.6";
+var version = "1.0.7";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -251,7 +245,9 @@ var onPlayerReady = function onPlayerReady(player, options) {
     } else {
       console.log("player.videojs_http_source_selector_initialized == false");
       player.videojs_http_source_selector_initialized = true;
-      player.getChild('controlBar').addChild('SourceMenuButton', {});
+      var controlBar = player.controlBar,
+          fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
+      controlBar.el().insertBefore(controlBar.addChild('SourceMenuButton').el(), fullscreenToggle);
     }
   });
 };
