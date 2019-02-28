@@ -1,5 +1,7 @@
 # videojs-http-source-selector
 
+[![NPM](https://nodei.co/npm/videojs-http-source-selector.png)](https://nodei.co/npm/videojs-http-source-selector/) 
+
 VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.
 
 ![Alt text](doc/images/example.png "Source selector")
@@ -26,32 +28,42 @@ httpSourceSelector:
   default: 'high'
 }
 ```
+#### Auto:
+```js
+httpSourceSelector:
+{
+  default: 'auto'
+}
+```
 
-## Table of Contents
-
-<!-- START doctoc -->
-<!-- END doctoc -->
-## Installation
+# Installation
 
 ```sh
 npm install --save videojs-http-source-selector
 ```
 
-## Usage
+# Usage
 
 To include videojs-http-source-selector on your website or web application, use any of the following methods.
 
 ### `<script>` Tag
 
-This is the simplest case. Get the script in whatever way you prefer and include the plugin _after_ you include [video.js][videojs], so that the `videojs` global is available.
+This is the simplest case. Get the script in whatever way you prefer and include the plugin _after_ you include [video.js][videojs], so that the `videojs` global is available. You can configure the plugin with the options described above.  
 
 ```html
 <script src="//path/to/video.min.js"></script>
 <script src="//path/to/videojs-http-source-selector.min.js"></script>
 <script>
-  var player = videojs('my-video');
-
-  player.httpSourceSelector();
+  var options = 
+  {
+    plugins: {
+      httpSourceSelector:
+      {
+        default: 'auto'
+      }
+    }
+  };
+  var player = videojs('my-video', options);
 </script>
 ```
 
@@ -99,7 +111,7 @@ go to localhost:9999 (or the next free port) and test out the plugin.
 
 ## License
 
-MIT. Copyright (c) Justin Fujita &lt;Justin@pivotshare.com&gt;
+MIT. Copyright (c) Justin Fujita;
 
 
 [videojs]: http://videojs.com/
