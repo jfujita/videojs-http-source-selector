@@ -64,6 +64,7 @@ This is the simplest case. Get the script in whatever way you prefer and include
     }
   };
   var player = videojs('my-video', options);
+  player.httpSourceSelector();
 </script>
 ```
 
