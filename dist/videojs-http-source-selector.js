@@ -6,7 +6,7 @@
 
 videojs$1 = videojs$1 && videojs$1.hasOwnProperty('default') ? videojs$1['default'] : videojs$1;
 
-var version = "1.0.7";
+var version = "1.1.3";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -132,6 +132,7 @@ var SourceMenuButton = function (_MenuButton) {
 
     // Bind update to qualityLevels changes
     //this.player().qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
+    player.on(["loadedmetadata"], _this.update.bind(_this));
     return _this;
   }
 
@@ -200,7 +201,6 @@ var SourceMenuButton = function (_MenuButton) {
   return SourceMenuButton;
 }(MenuButton);
 
-// Default options for the plugin.
 var defaults = {};
 
 // Cross-compatibility for Video.js 5 and 6.

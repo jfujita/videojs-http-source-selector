@@ -6,6 +6,8 @@ VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer man
 
 ![Alt text](doc/images/example.png "Source selector")
 
+# Test it with your stream [here](https://vod.dev)
+
 Compatible with vjs 7 and up.
 
 ### Labels:
@@ -39,8 +41,12 @@ httpSourceSelector:
 # Installation
 
 ```sh
+npm install --save videojs-contrib-quality-levels
 npm install --save videojs-http-source-selector
 ```
+
+# Dependencies
+Requires videojs-contrib-quality-levels
 
 # Usage
 
@@ -53,6 +59,7 @@ This is the simplest case. Get the script in whatever way you prefer and include
 ```html
 <script src="//path/to/video.min.js"></script>
 <script src="//path/to/videojs-http-source-selector.min.js"></script>
+<script src="//path/to/videojs-contrib-quality-levels.min.js"></script>
 <script>
   var options = 
   {
