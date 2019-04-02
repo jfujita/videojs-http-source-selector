@@ -81,6 +81,7 @@ When using with Browserify, install videojs-http-source-selector via npm and `re
 
 ```js
 var videojs = require('video.js');
+require('videojs-contrib-quality-levels');
 
 // The actual plugin function is exported by this module, but it is also
 // attached to the `Player.prototype`; so, there is no need to assign it
@@ -97,7 +98,7 @@ player.httpSourceSelector();
 When using with RequireJS (or another AMD library), get the script in whatever way you prefer and `require` the plugin as you normally would:
 
 ```js
-require(['video.js', 'videojs-http-source-selector'], function(videojs) {
+require(['video.js', 'videojs-contrib-quality-levels', 'videojs-http-source-selector'], function(videojs) {
   var player = videojs('my-video');
 
   player.httpSourceSelector();
