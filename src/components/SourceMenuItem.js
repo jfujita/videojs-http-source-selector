@@ -1,37 +1,30 @@
+import videojs from 'video.js';
+
 const MenuItem = videojs.getComponent('MenuItem');
 
-class SourceMenuItem extends MenuItem
-{
+class SourceMenuItem extends MenuItem {
   constructor(player, options) {
     super(player, options);
-    options.selectable = true;
+    this.selectable = true;
+    this.update();
   }
 
   handleClick() {
-    var selected = this.options_;
-    console.log("Changing quality to:", selected.label);
-
-    this.selected_ = true;
-    this.selected(true);
-
-    var levels = this.player().qualityLevels();
-    for(var i = 0; i < levels.length; i++) {
-      if (selected.index == levels.length) {
-        // If this is the Auto option, enable all renditions for adaptive selection
-        levels[i].enabled = true;
-      } else if (selected.index == i) {
+    const levels = this.player().qualityLevels();
+    for(let i = 0; i < levels.length; i++) {
+      if(this.options_.index === i) {
         levels[i].enabled = true;
       } else {
         levels[i].enabled = false;
       }
     }
+
+    this.options_.controller.triggerItemUpdate();
   }
 
   update() {
-    var levels = this.player().qualityLevels();
-    var selection = levels.selectedIndex;
-    this.selected(this.options_.index == selection);
-    this.selected_ = (this.options_.index === selection);
+    const levels = this.player().qualityLevels();
+    this.selected(levels[this.options_.index].enabled);
   }
 }
 
