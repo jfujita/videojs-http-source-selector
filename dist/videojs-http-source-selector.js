@@ -2,11 +2,11 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
 	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
 	(global.videojsHttpSourceSelector = factory(global.videojs));
-}(this, (function (videojs$1) { 'use strict';
+}(this, (function (videojs) { 'use strict';
 
-videojs$1 = videojs$1 && videojs$1.hasOwnProperty('default') ? videojs$1['default'] : videojs$1;
+videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
 
-var version = "1.1.3";
+var version = "1.1.5";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -132,7 +132,6 @@ var SourceMenuButton = function (_MenuButton) {
 
     // Bind update to qualityLevels changes
     //this.player().qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
-    player.on(["loadedmetadata"], _this.update.bind(_this));
     return _this;
   }
 
@@ -201,10 +200,11 @@ var SourceMenuButton = function (_MenuButton) {
   return SourceMenuButton;
 }(MenuButton);
 
+// Default options for the plugin.
 var defaults = {};
 
 // Cross-compatibility for Video.js 5 and 6.
-var registerPlugin = videojs$1.registerPlugin || videojs$1.plugin;
+var registerPlugin = videojs.registerPlugin || videojs.plugin;
 // const dom = videojs.dom || videojs;
 
 /**
@@ -238,7 +238,7 @@ var onPlayerReady = function onPlayerReady(player, options) {
   **/
   player.on(['loadedmetadata'], function (e) {
     var qualityLevels = player.qualityLevels();
-    videojs$1.log('loadmeadata event');
+    videojs.log('loadmetadata event');
     // hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
     if (player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true) {
       console.log("player.videojs_http_source_selector_initialized == true");
@@ -268,12 +268,12 @@ var httpSourceSelector = function httpSourceSelector(options) {
   var _this = this;
 
   this.ready(function () {
-    onPlayerReady(_this, videojs$1.mergeOptions(defaults, options));
+    onPlayerReady(_this, videojs.mergeOptions(defaults, options));
     //this.getChild('controlBar').addChild('SourceMenuButton', {});
   });
 
-  videojs$1.registerComponent('SourceMenuButton', SourceMenuButton);
-  videojs$1.registerComponent('SourceMenuItem', SourceMenuItem);
+  videojs.registerComponent('SourceMenuButton', SourceMenuButton);
+  videojs.registerComponent('SourceMenuItem', SourceMenuItem);
 };
 
 // Register the plugin with video.js.
