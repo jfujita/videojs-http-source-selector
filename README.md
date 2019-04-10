@@ -1,6 +1,6 @@
 # videojs-http-source-selector
 
-[![NPM](https://nodei.co/npm/videojs-http-source-selector.png)](https://nodei.co/npm/videojs-http-source-selector/) 
+[![NPM](https://nodei.co/npm/videojs-http-source-selector.png)](https://nodei.co/npm/videojs-http-source-selector/) [![Greenkeeper badge](https://badges.greenkeeper.io/jfujita/videojs-http-source-selector.svg)](https://greenkeeper.io/) 
 
 VideoJS plugin that leverages videojs-contrib-quality-levels plugin to offer manual user-selectable level selection options for adaptive http streams.
 
