@@ -1,15 +1,15 @@
 import videojs from 'video.js';
-import {version as VERSION} from '../package.json';
+import { version as VERSION } from '../package.json';
 
 import SourceMenuButton from './components/SourceMenuButton';
 import SourceMenuItem from './components/SourceMenuItem';
 
-// Default options for the plugin.
+//Default options for the plugin.
 const defaults = {};
 
-// Cross-compatibility for Video.js 5 and 6.
+//Cross-compatibility for Video.js 5 and 6.
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
-// const dom = videojs.dom || videojs;
+//const dom = videojs.dom || videojs;
 
 /**
 * Function to invoke when the player is ready.
@@ -25,15 +25,10 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
 * @param    {Object} [options={}]
 *           A plain object containing options for the plugin.
 */
-const onPlayerReady = (player, options) =>
-{
+const onPlayerReady = (player, options) => {
   player.addClass('vjs-http-source-selector');
-  console.log("videojs-http-source-selector initialized!");
-
-  console.log("player.techName_:"+player.techName_);
   //This plugin only supports level selection for HLS playback
-  if(player.techName_ != 'Html5')
-  {
+  if(player.techName_ !== 'Html5') {
     return false;
   }
 
@@ -42,21 +37,12 @@ const onPlayerReady = (player, options) =>
   * We have to wait for the manifest to load before we can scan renditions for resolutions/bitrates to populate selections
   *
   **/
-  player.on(['loadedmetadata'], function(e)
-  {
-    var qualityLevels = player.qualityLevels();
-    videojs.log('loadmetadata event');
-    // hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
-    if(player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true)
-    {
-      console.log("player.videojs_http_source_selector_initialized == true");
-    }
-    else
-    {
-      console.log("player.videojs_http_source_selector_initialized == false")
+  player.on(['loadedmetadata'], (e) => {
+    //hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
+    if(player.videojs_http_source_selector_initialized !== 'undefined' && player.videojs_http_source_selector_initialized !== true) {
       player.videojs_http_source_selector_initialized = true;
-      var controlBar = player.controlBar, 
-          fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
+      const { controlBar } = player;
+      const fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
       controlBar.el().insertBefore(controlBar.addChild('SourceMenuButton').el(), fullscreenToggle);
     }
   });
@@ -74,20 +60,20 @@ const onPlayerReady = (player, options) =>
   * @param    {Object} [options={}]
   *           An object of options left to the plugin author to define.
   */
-  const httpSourceSelector = function(options) {
-    this.ready(() => {
-      onPlayerReady(this, videojs.mergeOptions(defaults, options));
-      //this.getChild('controlBar').addChild('SourceMenuButton', {});
-    });
+const httpSourceSelector = function (options) {
+  this.ready(() => {
+    onPlayerReady(this, videojs.mergeOptions(defaults, options));
+    //this.getChild('controlBar').addChild('SourceMenuButton', {});
+  });
 
-    videojs.registerComponent('SourceMenuButton', SourceMenuButton);
-    videojs.registerComponent('SourceMenuItem', SourceMenuItem);
-  };
+  videojs.registerComponent('SourceMenuButton', SourceMenuButton);
+  videojs.registerComponent('SourceMenuItem', SourceMenuItem);
+};
 
-  // Register the plugin with video.js.
-  registerPlugin('httpSourceSelector', httpSourceSelector);
+  //Register the plugin with video.js.
+registerPlugin('httpSourceSelector', httpSourceSelector);
 
-  // Include the version number.
-  httpSourceSelector.VERSION = VERSION;
+//Include the version number.
+httpSourceSelector.VERSION = VERSION;
 
-  export default httpSourceSelector;
+export default httpSourceSelector;

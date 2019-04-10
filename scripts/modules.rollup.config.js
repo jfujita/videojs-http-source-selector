@@ -13,20 +13,17 @@ export default {
   input: 'src/plugin.js',
   output: [{
     file: 'dist/videojs-http-source-selector.cjs.js',
-    format: 'cjs'
+    format: 'cjs',
   }, {
     file: 'dist/videojs-http-source-selector.es.js',
-    format: 'es'
+    format: 'es',
   }],
   external: [
     'global',
     'global/document',
     'global/window',
-    'video.js'
+    'video.js',
   ],
-  globals: {
-    'video.js': 'videojs'
-  },
   plugins: [
     json(),
     babel({
@@ -35,13 +32,13 @@ export default {
       presets: [
         ['es2015', {
           loose: true,
-          modules: false
-        }]
+          modules: false,
+        }],
       ],
       plugins: [
         'external-helpers',
-        'transform-object-assign'
-      ]
-    })
-  ]
+        'transform-object-assign',
+      ],
+    }),
+  ],
 };

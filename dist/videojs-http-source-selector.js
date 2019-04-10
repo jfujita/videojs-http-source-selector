@@ -1,3 +1,9 @@
+/**
+ * videojs-http-source-selector
+ * @version 1.2.0
+ * @copyright 2019 Justin Fujita <Justin@pivotshare.com>
+ * @license MIT
+ */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
 	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
@@ -6,7 +12,7 @@
 
 videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
 
-var version = "1.1.5";
+var version = "1.2.0";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -68,35 +74,27 @@ var SourceMenuItem = function (_MenuItem) {
 
     var _this = possibleConstructorReturn(this, _MenuItem.call(this, player, options));
 
-    options.selectable = true;
+    _this.selectable = true;
+    _this.update();
     return _this;
   }
 
   SourceMenuItem.prototype.handleClick = function handleClick() {
-    var selected = this.options_;
-    console.log("Changing quality to:", selected.label);
-
-    this.selected_ = true;
-    this.selected(true);
-
     var levels = this.player().qualityLevels();
     for (var i = 0; i < levels.length; i++) {
-      if (selected.index == levels.length) {
-        // If this is the Auto option, enable all renditions for adaptive selection
-        levels[i].enabled = true;
-      } else if (selected.index == i) {
+      if (this.options_.index === i) {
         levels[i].enabled = true;
       } else {
         levels[i].enabled = false;
       }
     }
+
+    this.options_.controller.triggerItemUpdate();
   };
 
   SourceMenuItem.prototype.update = function update() {
     var levels = this.player().qualityLevels();
-    var selection = levels.selectedIndex;
-    this.selected(this.options_.index == selection);
-    this.selected_ = this.options_.index === selection;
+    this.selected(levels[this.options_.index].enabled);
   };
 
   return SourceMenuItem;
@@ -112,26 +110,20 @@ var SourceMenuButton = function (_MenuButton) {
 
     var _this = possibleConstructorReturn(this, _MenuButton.call(this, player, options));
 
-    MenuButton.apply(_this, arguments);
-
-    var qualityLevels = _this.player().qualityLevels();
-
-    // Handle options: We accept an options.default value of ( high || low )
-    // This determines a bias to set initial resolution selection.
+    var levels = _this.player().qualityLevels();
+    //Handle options: We accept an options.default value of ( high || low )
+    //This determines a bias to set initial resolution selection.
     if (options && options.default) {
-      if (options.default == 'low') {
-        for (var i = 0; i < qualityLevels.length; i++) {
-          qualityLevels[i].enabled = i == 0;
-        }
-      } else if (options.default = 'high') {
-        for (var i = 0; i < qualityLevels.length; i++) {
-          qualityLevels[i].enabled = i == qualityLevels.length - 1;
-        }
+      if (options.default === 'low') {
+        levels.forEach(function (level, i) {
+          level.enabled = i === 0;
+        });
+      } else if (options.default === 'high') {
+        levels.forEach(function (level, i) {
+          level.enabled = levels.length - 1 === 0;
+        });
       }
     }
-
-    // Bind update to qualityLevels changes
-    //this.player().qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
     return _this;
   }
 
@@ -145,67 +137,57 @@ var SourceMenuButton = function (_MenuButton) {
     return MenuButton.prototype.buildCSSClass.call(this) + ' vjs-icon-cog';
   };
 
-  SourceMenuButton.prototype.update = function update() {
-    return MenuButton.prototype.update.call(this);
+  SourceMenuButton.prototype.triggerItemUpdate = function triggerItemUpdate() {
+    this.menuItems.forEach(function (item) {
+      return item.update();
+    });
   };
 
   SourceMenuButton.prototype.createItems = function createItems() {
-    var menuItems = [];
     var levels = this.player().qualityLevels();
-    var labels = [];
+    this.menuItems = [];
 
     for (var i = 0; i < levels.length; i++) {
-      var index = levels.length - (i + 1);
-      var selected = index === levels.selectedIndex;
+      var index = i;
 
-      // Display height if height metadata is provided with the stream, else use bitrate
-      var label = '' + index;
       var sortVal = index;
-      if (levels[index].height) {
-        label = levels[index].height + 'p';
+      if (levels[index].sortVal) {
+        sortVal = parseInt(levels[index].sortVal, 10);
+      } else if (levels[index].height) {
         sortVal = parseInt(levels[index].height, 10);
       } else if (levels[index].bitrate) {
-        label = Math.floor(levels[index].bitrate / 1e3) + ' kbps';
         sortVal = parseInt(levels[index].bitrate, 10);
       }
 
-      // Skip duplicate labels
-      if (labels.indexOf(label) >= 0) {
-        continue;
-      }
-      labels.push(label);
-
-      menuItems.push(new SourceMenuItem(this.player_, { label: label, index: index, selected: selected, sortVal: sortVal }));
+      this.menuItems.push(new SourceMenuItem(this.player_, {
+        index: index,
+        sortVal: sortVal,
+        controller: this,
+        label: levels[index].id
+      }));
     }
 
-    // If there are multiple quality levels, offer an 'auto' option
-    if (levels.length > 1) {
-      menuItems.push(new SourceMenuItem(this.player_, { label: 'Auto', index: levels.length, selected: false, sortVal: 99999 }));
-    }
-
-    // Sort menu items by their label name with Auto always first
-    menuItems.sort(function (a, b) {
+    //Sort menu items by their label name with Auto always first
+    this.menuItems.sort(function (a, b) {
       if (a.options_.sortVal < b.options_.sortVal) {
         return 1;
-      } else if (a.options_.sortVal > b.options_.sortVal) {
+      }if (a.options_.sortVal > b.options_.sortVal) {
         return -1;
-      } else {
-        return 0;
       }
+      return 0;
     });
-
-    return menuItems;
+    return this.menuItems;
   };
 
   return SourceMenuButton;
 }(MenuButton);
 
-// Default options for the plugin.
+//Default options for the plugin.
 var defaults = {};
 
-// Cross-compatibility for Video.js 5 and 6.
+//Cross-compatibility for Video.js 5 and 6.
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
-// const dom = videojs.dom || videojs;
+//const dom = videojs.dom || videojs;
 
 /**
 * Function to invoke when the player is ready.
@@ -223,11 +205,8 @@ var registerPlugin = videojs.registerPlugin || videojs.plugin;
 */
 var onPlayerReady = function onPlayerReady(player, options) {
   player.addClass('vjs-http-source-selector');
-  console.log("videojs-http-source-selector initialized!");
-
-  console.log("player.techName_:" + player.techName_);
   //This plugin only supports level selection for HLS playback
-  if (player.techName_ != 'Html5') {
+  if (player.techName_ !== 'Html5') {
     return false;
   }
 
@@ -237,16 +216,12 @@ var onPlayerReady = function onPlayerReady(player, options) {
   *
   **/
   player.on(['loadedmetadata'], function (e) {
-    var qualityLevels = player.qualityLevels();
-    videojs.log('loadmetadata event');
-    // hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
-    if (player.videojs_http_source_selector_initialized == 'undefined' || player.videojs_http_source_selector_initialized == true) {
-      console.log("player.videojs_http_source_selector_initialized == true");
-    } else {
-      console.log("player.videojs_http_source_selector_initialized == false");
+    //hack for plugin idempodency... prevents duplicate menubuttons from being inserted into the player if multiple player.httpSourceSelector() functions called.
+    if (player.videojs_http_source_selector_initialized !== 'undefined' && player.videojs_http_source_selector_initialized !== true) {
       player.videojs_http_source_selector_initialized = true;
-      var controlBar = player.controlBar,
-          fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
+      var controlBar = player.controlBar;
+
+      var fullscreenToggle = controlBar.getChild('fullscreenToggle').el();
       controlBar.el().insertBefore(controlBar.addChild('SourceMenuButton').el(), fullscreenToggle);
     }
   });
@@ -276,10 +251,10 @@ var httpSourceSelector = function httpSourceSelector(options) {
   videojs.registerComponent('SourceMenuItem', SourceMenuItem);
 };
 
-// Register the plugin with video.js.
+//Register the plugin with video.js.
 registerPlugin('httpSourceSelector', httpSourceSelector);
 
-// Include the version number.
+//Include the version number.
 httpSourceSelector.VERSION = version;
 
 return httpSourceSelector;
