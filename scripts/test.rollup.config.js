@@ -45,14 +45,14 @@ export default {
       babelrc: false,
       exclude: 'node_modules/**',
       presets: [
-        ['es2015', {
+        ['@babel/preset-env', {
           loose: true,
           modules: false
         }]
       ],
       plugins: [
-        'external-helpers',
-        'transform-object-assign'
+        '@babel/external-helpers',
+        '@babel/transform-object-assign'
       ]
     })
   ]
