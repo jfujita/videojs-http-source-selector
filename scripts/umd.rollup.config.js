@@ -13,6 +13,7 @@ export default {
   name: 'videojsHttpSourceSelector',
   input: 'src/plugin.js',
   output: {
+    name: 'videojs-http-source-selector',
     file: 'dist/videojs-http-source-selector.js',
     format: 'umd'
   },
@@ -42,14 +43,14 @@ export default {
       babelrc: false,
       exclude: 'node_modules/**',
       presets: [
-        ['es2015', {
+        ['@babel/preset-env', {
           loose: true,
           modules: false
         }]
       ],
       plugins: [
-        'external-helpers',
-        'transform-object-assign'
+        '@babel/external-helpers',
+        '@babel/transform-object-assign'
       ]
     })
   ]
