@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var videojs = _interopDefault(require('video.js'));
 
-var version = "1.1.4";
+var version = "1.2.0";
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -102,11 +102,7 @@ var SourceMenuButton = function (_MenuButton) {
 
     var _this = possibleConstructorReturn(this, _MenuButton.call(this, player, options));
 
-    console.log('apply args');
-    MenuButton.apply(_this, arguments);
-
     var levels = _this.player().qualityLevels();
-    console.log(' get qualities', _this.qualityLevels);
     //Handle options: We accept an options.default value of ( high || low )
     //This determines a bias to set initial resolution selection.
     if (options && options.default) {
