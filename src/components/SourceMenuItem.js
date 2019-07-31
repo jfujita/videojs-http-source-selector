@@ -4,8 +4,8 @@ const MenuItem = videojs.getComponent('MenuItem');
 class SourceMenuItem extends MenuItem
 {
   constructor(player, options) {
-    super(player, options);
     options.selectable = true;
+    super(player, options);
   }
 
   handleClick() {
