@@ -1,19 +1,20 @@
 import videojs from 'video.js';
 const MenuItem = videojs.getComponent('MenuItem');
+const Component = videojs.getComponent('Component');
 
 class SourceMenuItem extends MenuItem
 {
   constructor(player, options) {
-    super(player, options);
     options.selectable = true;
+    options.multiSelectable = false;
+
+    super(player, options);
   }
 
   handleClick() {
     var selected = this.options_;
     console.log("Changing quality to:", selected.label);
-
-    this.selected_ = true;
-    this.selected(true);
+    super.handleClick();
 
     var levels = this.player().qualityLevels();
     for(var i = 0; i < levels.length; i++) {
@@ -29,11 +30,10 @@ class SourceMenuItem extends MenuItem
   }
 
   update() {
-    var levels = this.player().qualityLevels();
-    var selection = levels.selectedIndex;
-    this.selected(this.options_.index == selection);
-    this.selected_ = (this.options_.index === selection);
+    var selectedIndex = this.player().qualityLevels().selectedIndex;
+    this.selected(this.options_.index == selectedIndex);
   }
 }
 
+Component.registerComponent('SourceMenuItem', SourceMenuItem);
 export default SourceMenuItem;
