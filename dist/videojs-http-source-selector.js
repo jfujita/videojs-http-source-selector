@@ -23,6 +23,7 @@
   }
 
   var MenuItem = videojs.getComponent('MenuItem');
+  var Component = videojs.getComponent('Component');
 
   var SourceMenuItem =
   /*#__PURE__*/
@@ -30,11 +31,9 @@
     _inheritsLoose(SourceMenuItem, _MenuItem);
 
     function SourceMenuItem(player, options) {
-      var _this;
-
-      _this = _MenuItem.call(this, player, options) || this;
       options.selectable = true;
-      return _this;
+      options.multiSelectable = false;
+      return _MenuItem.call(this, player, options) || this;
     }
 
     var _proto = SourceMenuItem.prototype;
@@ -42,8 +41,9 @@
     _proto.handleClick = function handleClick() {
       var selected = this.options_;
       console.log("Changing quality to:", selected.label);
-      this.selected_ = true;
-      this.selected(true);
+
+      _MenuItem.prototype.handleClick.call(this);
+
       var levels = this.player().qualityLevels();
 
       for (var i = 0; i < levels.length; i++) {
@@ -59,14 +59,14 @@
     };
 
     _proto.update = function update() {
-      var levels = this.player().qualityLevels();
-      var selection = levels.selectedIndex;
-      this.selected(this.options_.index == selection);
-      this.selected_ = this.options_.index === selection;
+      var selectedIndex = this.player().qualityLevels().selectedIndex;
+      this.selected(this.options_.index == selectedIndex);
     };
 
     return SourceMenuItem;
   }(MenuItem);
+
+  Component.registerComponent('SourceMenuItem', SourceMenuItem);
 
   var MenuButton = videojs.getComponent('MenuButton');
 
@@ -96,8 +96,9 @@
           }
         }
       } // Bind update to qualityLevels changes
-      //this.player().qualityLevels.on(['change', 'addqualitylevel'], videojs.bind( this, this.update) );
 
+
+      _this.player().qualityLevels().on(['change', 'addqualitylevel'], videojs.bind(_assertThisInitialized(_this), _this.update));
 
       return _this;
     }
