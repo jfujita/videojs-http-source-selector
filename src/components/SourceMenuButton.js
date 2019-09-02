@@ -37,7 +37,7 @@ class SourceMenuButton extends MenuButton
   }
 
   buildCSSClass() {
-    return MenuButton.prototype.buildCSSClass.call( this ) + ' vjs-icon-cog';
+    return MenuButton.prototype.buildCSSClass.call( this );
   }
 
   update() {

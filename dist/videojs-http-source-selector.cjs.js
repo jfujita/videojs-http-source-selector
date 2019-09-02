@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var videojs = _interopDefault(require('video.js'));
 
-var version = "1.1.5";
+var version = "1.1.6";
 
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
@@ -110,7 +110,7 @@ function (_MenuButton) {
   };
 
   _proto.buildCSSClass = function buildCSSClass() {
-    return MenuButton.prototype.buildCSSClass.call(this) + ' vjs-icon-cog';
+    return MenuButton.prototype.buildCSSClass.call(this);
   };
 
   _proto.update = function update() {
