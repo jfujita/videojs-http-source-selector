@@ -93,7 +93,7 @@
     "npm-run-all": "^4.1.2",
     "portscanner": "^2.1.1",
     "qunitjs": "^2.4.1",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.2",
     "rollup": "^1.9.3",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
