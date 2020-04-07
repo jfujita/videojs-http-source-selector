@@ -73,7 +73,7 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-external-helpers": "^7.8.3",
     "@babel/plugin-transform-object-assign": "^7.8.3",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-env": "^7.9.5",
     "bannerize": "^1.1.3",
     "conventional-changelog-cli": "^2.0.12",
     "conventional-changelog-videojs": "^3.0.0",
