@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.1",
-    "@babel/plugin-external-helpers": "^7.0.0",
+    "@babel/plugin-external-helpers": "^7.10.1",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "bannerize": "^1.1.3",
