@@ -70,7 +70,7 @@
     "videojs-contrib-quality-levels": "^2.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^7.10.2",
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-transform-object-assign": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
