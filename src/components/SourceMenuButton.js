@@ -9,7 +9,7 @@ class SourceMenuButton extends MenuButton
     super(player, options);
 
     MenuButton.apply(this, arguments);
-
+    this.controlText('Quality Picker');
     var qualityLevels = this.player().qualityLevels();
 
     // Handle options: We accept an options.default value of ( high || low )
