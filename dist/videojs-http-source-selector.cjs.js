@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var videojs = _interopDefault(require('video.js'));
 
-var version = "1.1.5";
+var version = "1.1.6";
 
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
@@ -78,6 +78,8 @@ function (_MenuButton) {
 
     _this = _MenuButton.call(this, player, options) || this;
     MenuButton.apply(_assertThisInitialized(_this), arguments);
+
+    _this.controlText('Quality Picker');
 
     var qualityLevels = _this.player().qualityLevels(); // Handle options: We accept an options.default value of ( high || low )
     // This determines a bias to set initial resolution selection.
