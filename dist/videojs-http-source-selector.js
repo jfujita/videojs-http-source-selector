@@ -1,3 +1,9 @@
+/**
+ * videojs-http-source-selector
+ * @version 1.1.6
+ * @copyright 2019 Justin Fujita <Justin@pivotshare.com>
+ * @license MIT
+ */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
   typeof define === 'function' && define.amd ? define(['video.js'], factory) :
@@ -6,7 +12,7 @@
 
   videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
 
-  var version = "1.1.5";
+  var version = "1.1.6";
 
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
@@ -112,7 +118,7 @@
     };
 
     _proto.buildCSSClass = function buildCSSClass() {
-      return MenuButton.prototype.buildCSSClass.call(this) + ' vjs-icon-cog';
+      return MenuButton.prototype.buildCSSClass.call(this);
     };
 
     _proto.update = function update() {

@@ -1,1 +1,7 @@
-.video-js.vjs-http-source-selector{display:block}
+/**
+ * videojs-http-source-selector
+ * @version 1.1.6
+ * @copyright 2019 Justin Fujita <Justin@pivotshare.com>
+ * @license MIT
+ */
+.video-js.vjs-http-source-selector{display:block}.vjs-http-source-selector .vjs-icon-placeholder::before{font-family:VideoJS;font-weight:normal;font-style:normal;content:"\f110"}
